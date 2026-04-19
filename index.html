@@ -18,7 +18,6 @@ overflow-y:scroll;
 scroll-snap-type:y mandatory;
 }
 
-/* секции */
 .section{
 height:100vh;
 display:flex;
@@ -28,7 +27,6 @@ text-align:center;
 padding:20px;
 background-size:cover;
 background-position:center;
-position:relative;
 scroll-snap-align:start;
 }
 
@@ -55,14 +53,12 @@ h2{
 font-weight:300;
 }
 
-/* фоны */
 #s1{background-image:url('https://images.unsplash.com/photo-1522673607200-164d1b6ce486');}
 #s2{background-image:url('https://images.unsplash.com/photo-1505236738415-86c5f60d3b1b');}
 #s3{background-image:url('https://images.unsplash.com/photo-1519225421980-715cb0215aed');}
 #s4{background-image:url('https://images.unsplash.com/photo-1519741497674-611481863552');}
 #s5{background-image:url('https://images.unsplash.com/photo-1473177104440-ffee2f376098');}
 
-/* дресс-код */
 .colors{
 display:flex;
 gap:20px;
@@ -79,7 +75,6 @@ border-radius:15px;
 .black{background:black;border:2px solid white;}
 .white{background:white;}
 
-/* форма */
 input,select{
 padding:12px;
 margin:10px;
@@ -97,7 +92,6 @@ color:black;
 font-size:16px;
 }
 
-/* музыка */
 .music-btn{
 position:fixed;
 top:20px;
@@ -110,7 +104,6 @@ padding:10px 15px;
 font-size:14px;
 }
 
-/* стрелка вниз */
 .arrow{
 position:absolute;
 bottom:20px;
@@ -129,7 +122,7 @@ animation:updown 1.5s infinite;
 
 <body>
 
-<button class="music-btn" onclick="toggleMusic()">🔊</button>
+<button id="musicBtn" class="music-btn">🎶 Включить</button>
 
 <section class="section" id="s1">
 <div class="overlay">
@@ -143,8 +136,6 @@ animation:updown 1.5s infinite;
 <div class="overlay">
 <h1>Место проведения</h1>
 <h2>База отдыха на Оке</h2>
-<br>
-<button onclick="openMap()">Открыть маршрут</button>
 </div>
 </section>
 
@@ -160,7 +151,6 @@ animation:updown 1.5s infinite;
 <div class="overlay">
 <h1>Дресс-код</h1>
 <h2>Черный & Белый</h2>
-
 <div class="colors">
 <div class="color black"></div>
 <div class="color white"></div>
@@ -191,29 +181,33 @@ animation:updown 1.5s infinite;
 </div>
 </section>
 
-<audio id="music" loop>
-<source src="https://cdn.pixabay.com/audio/2023/03/27/audio_1c2b77c1f7.mp3">
+<audio id="music" loop preload="auto">
+<source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-let music=document.getElementById("music");
-let playing=false;
+const btn = document.getElementById("musicBtn");
+const audio = document.getElementById("music");
 
-function toggleMusic(){
-if(!playing){
-music.play();
-playing=true;
-}else{
-music.pause();
-playing=false;
-}
-}
+let playing = false;
 
-function openMap(){
-window.open("https://maps.google.com");
-}
+btn.addEventListener("click", async () => {
+  try {
+    if (!playing) {
+      await audio.play();
+      btn.innerText = "⏸ Выкл";
+      playing = true;
+    } else {
+      audio.pause();
+      btn.innerText = "🎶 Включить";
+      playing = false;
+    }
+  } catch (e) {
+    alert("Нажми ещё раз");
+  }
+});
 
-/* анимация при скролле */
+/* анимация */
 let observer=new IntersectionObserver(entries=>{
 entries.forEach(entry=>{
 if(entry.isIntersecting){
@@ -227,67 +221,5 @@ observer.observe(el);
 });
 </script>
 
-<button id="musicBtn" style="
-position:fixed;
-top:20px;
-right:20px;
-z-index:999;
-padding:10px 15px;
-border:none;
-border-radius:20px;
-background:white;
-color:black;
-">
-🎶 <button id="musicBtn" style="
-position:fixed;
-top:20px;
-right:20px;
-z-index:999;
-padding:10px 15px;
-border:none;
-border-radius:20px;
-background:white;
-color:black;
-">
-🎶 Музыка
-</button>
-<button id="musicBtn" style="
-position:fixed;
-top:20px;
-right:20px;
-z-index:999;
-padding:10px 15px;
-border:none;
-border-radius:20px;
-background:white;
-color:black;
-">
-🎶 Музыка
-</button>
-</button 
-  
->
-
-<audio id="music" loop preload="auto">
-<source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-</audio>
-
-<script>
-const btn = document.getElementById("musicBtn");
-const audio = document.getElementById("music");
-
-btn.addEventListener("click", async () => {
-  try {
-    await audio.play();
-    btn.innerText = "⏸";
-  } catch {
-    alert("Нажми ещё раз");
-  }
-});
-
-btn.addEventListener("dblclick", () => {
-  audio.pause();
-  btn.innerText = "🎶";
-});
-</script></body>
+</body>
 </html>
