@@ -227,5 +227,40 @@ observer.observe(el);
 });
 </script>
 
-</body>
+<button id="musicBtn" style="
+position:fixed;
+top:20px;
+right:20px;
+z-index:999;
+padding:10px 15px;
+border:none;
+border-radius:20px;
+background:white;
+color:black;
+">
+🎶 Музыка
+</button>
+
+<audio id="music" loop preload="auto">
+<source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const btn = document.getElementById("musicBtn");
+const audio = document.getElementById("music");
+
+btn.addEventListener("click", async () => {
+  try {
+    await audio.play();
+    btn.innerText = "⏸";
+  } catch {
+    alert("Нажми ещё раз");
+  }
+});
+
+btn.addEventListener("dblclick", () => {
+  audio.pause();
+  btn.innerText = "🎶";
+});
+</script></body>
 </html>
