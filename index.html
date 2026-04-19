@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Montserrat:wght@300&display=swap" rel="stylesheet">
+
+<title>Wedding</title>
+
+<style>
+body{
+margin:0;
+font-family:'Montserrat',sans-serif;
+color:white;
+scroll-behavior:smooth;
+overflow-y:scroll;
+scroll-snap-type:y mandatory;
+}
+
+/* секции */
+.section{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+text-align:center;
+padding:20px;
+background-size:cover;
+background-position:center;
+position:relative;
+scroll-snap-align:start;
+}
+
+.overlay{
+background:rgba(0,0,0,0.6);
+padding:40px;
+border-radius:20px;
+opacity:0;
+transform:translateY(40px);
+transition:1s;
+}
+
+.overlay.show{
+opacity:1;
+transform:translateY(0);
+}
+
+h1{
+font-family:'Playfair Display',serif;
+font-size:40px;
+}
+
+h2{
+font-weight:300;
+}
+
+/* фоны */
+#s1{background-image:url('https://images.unsplash.com/photo-1522673607200-164d1b6ce486');}
+#s2{background-image:url('https://images.unsplash.com/photo-1505236738415-86c5f60d3b1b');}
+#s3{background-image:url('https://images.unsplash.com/photo-1519225421980-715cb0215aed');}
+#s4{background-image:url('https://images.unsplash.com/photo-1519741497674-611481863552');}
+#s5{background-image:url('https://images.unsplash.com/photo-1473177104440-ffee2f376098');}
+
+/* дресс-код */
+.colors{
+display:flex;
+gap:20px;
+justify-content:center;
+margin-top:20px;
+}
+
+.color{
+width:90px;
+height:90px;
+border-radius:15px;
+}
+
+.black{background:black;border:2px solid white;}
+.white{background:white;}
+
+/* форма */
+input,select{
+padding:12px;
+margin:10px;
+width:80%;
+border-radius:10px;
+border:none;
+}
+
+button{
+padding:15px 25px;
+border:none;
+border-radius:25px;
+background:white;
+color:black;
+font-size:16px;
+}
+
+/* музыка */
+.music-btn{
+position:fixed;
+top:20px;
+right:20px;
+z-index:999;
+background:white;
+color:black;
+border-radius:50px;
+padding:10px 15px;
+font-size:14px;
+}
+
+/* стрелка вниз */
+.arrow{
+position:absolute;
+bottom:20px;
+font-size:20px;
+opacity:0.7;
+animation:updown 1.5s infinite;
+}
+
+@keyframes updown{
+0%{transform:translateY(0);}
+50%{transform:translateY(10px);}
+100%{transform:translateY(0);}
+}
+</style>
+</head>
+
+<body>
+
+<button class="music-btn" onclick="toggleMusic()">🔊</button>
+
+<section class="section" id="s1">
+<div class="overlay">
+<h1>Приглашаем на нашу свадьбу</h1>
+<h2>18 июля 2027</h2>
+</div>
+<div class="arrow">↓</div>
+</section>
+
+<section class="section" id="s2">
+<div class="overlay">
+<h1>Место проведения</h1>
+<h2>База отдыха на Оке</h2>
+<br>
+<button onclick="openMap()">Открыть маршрут</button>
+</div>
+</section>
+
+<section class="section" id="s3">
+<div class="overlay">
+<h1>Дата и время</h1>
+<h2>18 июля 2027</h2>
+<h2>15:00</h2>
+</div>
+</section>
+
+<section class="section" id="s4">
+<div class="overlay">
+<h1>Дресс-код</h1>
+<h2>Черный & Белый</h2>
+
+<div class="colors">
+<div class="color black"></div>
+<div class="color white"></div>
+</div>
+</div>
+</section>
+
+<section class="section" id="s5">
+<div class="overlay">
+<h1>Подтвердите участие</h1>
+
+<input placeholder="Имя и фамилия">
+
+<select>
+<option>Буду</option>
+<option>Не смогу</option>
+</select>
+
+<select>
+<option>Вино</option>
+<option>Виски</option>
+<option>Пиво</option>
+<option>Шампанское</option>
+<option>Не пью</option>
+</select>
+
+<button onclick="alert('Спасибо ❤️')">Отправлено</button>
+</div>
+</section>
+
+<audio id="music" loop>
+<source src="https://cdn.pixabay.com/audio/2023/03/27/audio_1c2b77c1f7.mp3">
+</audio>
+
+<script>
+let music=document.getElementById("music");
+let playing=false;
+
+function toggleMusic(){
+if(!playing){
+music.play();
+playing=true;
+}else{
+music.pause();
+playing=false;
+}
+}
+
+function openMap(){
+window.open("https://maps.google.com");
+}
+
+/* анимация при скролле */
+let observer=new IntersectionObserver(entries=>{
+entries.forEach(entry=>{
+if(entry.isIntersecting){
+entry.target.classList.add("show");
+}
+});
+});
+
+document.querySelectorAll(".overlay").forEach(el=>{
+observer.observe(el);
+});
+</script>
+
+</body>
+</html>
